@@ -41,21 +41,17 @@ public class Main {
     farmIron();
   }
 
-  private static void checkEmpty120CargoHold() {
-    try {
-      final Structure structure = getStructure();
-      final List<List<String>> holds = structure.getHold();
-      if (holds.size() != CARGO_HOLD_HEIGHT || holds.stream().anyMatch(row -> row.size() != CARGO_HOLD_WIDTH)) {
-        throw new IllegalStateException("Unexpected cargo hold size");
-      }
-      if (holds.stream().flatMap(List::stream).anyMatch(Objects::nonNull)) {
-        throw new IllegalStateException("Cargo has to be empty in order to start filling it entirely with iron");
-      }
-      if (get(HoldCredits.class, ":2012/hold").hold().credits() < 600) {
-        throw new IllegalStateException("Not enough credits to buy 120 iron");
-      }
-    } catch (final Exception e) {
-      throw new IllegalStateException("Unexpected error when checking cargo hold", e);
+  private static void checkEmpty120CargoHold() throws IOException {
+    final Structure structure = getStructure();
+    final List<List<String>> holds = structure.getHold();
+    if (holds.size() != CARGO_HOLD_HEIGHT || holds.stream().anyMatch(row -> row.size() != CARGO_HOLD_WIDTH)) {
+      throw new IllegalStateException("Unexpected cargo hold size");
+    }
+    if (holds.stream().flatMap(List::stream).anyMatch(Objects::nonNull)) {
+      throw new IllegalStateException("Cargo has to be empty in order to start filling it entirely with iron");
+    }
+    if (get(HoldCredits.class, ":2012/hold").hold().credits() < 600) {
+      throw new IllegalStateException("Not enough credits to buy 120 iron");
     }
   }
 
