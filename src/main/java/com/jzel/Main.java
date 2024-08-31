@@ -35,6 +35,7 @@ public class Main {
   private static final double ARAK_X = -3314;
   private static final double ARAK_Y = 4908;
 
+
   public static void main(final String[] args) throws IOException, InterruptedException {
     checkEmpty120CargoHold();
     farmIron();
@@ -50,7 +51,7 @@ public class Main {
       if (holds.stream().flatMap(List::stream).anyMatch(Objects::nonNull)) {
         throw new IllegalStateException("Cargo has to be empty in order to start filling it entirely with iron");
       }
-      if (getHoldCredits().hold().credits() < 600) {
+      if (get(HoldCredits.class, ":2012/hold").hold().credits() < 600) {
         throw new IllegalStateException("Not enough credits to buy 120 iron");
       }
     } catch (final Exception e) {
@@ -138,28 +139,19 @@ public class Main {
   }
 
   private static Structure getStructure() throws IOException {
-    Request request = new Request.Builder()
-        .url(BASE_URL + ":2012/structure")
-        .build();
-
-    try (final Response response = CLIENT.newCall(request).execute()) {
-      if (!response.isSuccessful()) {
-        throw new IOException("Unexpected code " + response);
-      }
-      return GSON.fromJson(requireNonNull(response.body()).string(), Structure.class);
-    }
+    return get(Structure.class, ":2012/structure");
   }
 
-  private static HoldCredits getHoldCredits() throws IOException {
-    final Request request = new Request.Builder()
-        .url(BASE_URL + ":2012/hold")
+  private static <T> T get(final Class<T> clazz, final String url) throws IOException {
+    Request request = new Request.Builder()
+        .url(BASE_URL + url)
         .build();
 
     try (final Response response = CLIENT.newCall(request).execute()) {
       if (!response.isSuccessful()) {
         throw new IOException("Unexpected code " + response);
       }
-      return GSON.fromJson(requireNonNull(response.body()).string(), HoldCredits.class);
+      return GSON.fromJson(requireNonNull(response.body()).string(), clazz);
     }
   }
 }
