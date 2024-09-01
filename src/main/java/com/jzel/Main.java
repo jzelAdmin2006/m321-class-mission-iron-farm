@@ -38,6 +38,9 @@ public class Main {
 
   public static void main(final String[] args) throws IOException, InterruptedException {
     checkEmpty120CargoHold();
+    if (get(HoldCredits.class, ":2012/hold").hold().credits() < 600) {
+      throw new IllegalStateException("Not enough credits to buy 120 iron");
+    }
     farmIron();
   }
 
@@ -49,9 +52,6 @@ public class Main {
     }
     if (holds.stream().flatMap(List::stream).anyMatch(Objects::nonNull)) {
       throw new IllegalStateException("Cargo has to be empty in order to start filling it entirely with iron");
-    }
-    if (get(HoldCredits.class, ":2012/hold").hold().credits() < 600) {
-      throw new IllegalStateException("Not enough credits to buy 120 iron");
     }
   }
 
