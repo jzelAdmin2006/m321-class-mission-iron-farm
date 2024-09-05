@@ -32,8 +32,8 @@ public class Main {
   private static final OkHttpClient CLIENT = new OkHttpClient();
   private static final double VESTA_X = 10000;
   private static final double VESTA_Y = 10000;
-  private static final double ARAK_X = -3314;
-  private static final double ARAK_Y = 4908;
+  private static final double ARAK_X = 2490;
+  private static final double ARAK_Y = 4368;
 
 
   public static void main(final String[] args) throws IOException, InterruptedException {
