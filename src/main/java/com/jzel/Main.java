@@ -23,7 +23,7 @@ public class Main {
   public static final MediaType JSON = MediaType.parse("application/json");
   public static final int CARGO_HOLD_HEIGHT = 10;
   public static final int CARGO_HOLD_WIDTH = 12;
-  private static final String BASE_URL = "http://192.168.100.11";
+  private static final String BASE_URL = System.getenv("BASE_URL");
   public static final Request BUY_IRON_REQUEST = new Builder()
       .url(BASE_URL + ":2011/buy")
       .post(RequestBody.create("{\"station\": \"Vesta Station\", \"what\": \"IRON\", \"amount\": 12}", JSON))
